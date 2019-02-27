@@ -1,0 +1,76 @@
+@import "module/reset";
+@import "module/color";
+@import "module/media";
+@import "module/fn";
+@import "module/class";
+@import "module/btn";
+
+/* 改变主题色变量 */
+//$--color-primary: color("primary");
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+//.color-content{
+//    border-bottom: 2px solid inherit;
+//}
+//.a-hover-primary{
+//    border-color: color("primary");
+//}
+@mixin search_btn{
+    width: 200px;
+    border-color: color("primary");
+}
+.header{
+    height: 80px;
+    width: 100%;
+    background: #fff;
+    -webkit-box-shadow: 0 5px 30px rgba(33,149,215,.06);
+    -moz-box-shadow: 0 5px 30px rgba(33,149,215,.06);
+    box-shadow: 0 5px 30px rgba(33,149,215,.06);
+    .search-btn{
+        width: 0;
+        height: 25px;
+        border-bottom: 1px solid color("border");
+        -webkit-transition: all ease .3s 0s;
+        -moz-transition: all ease .3s 0s;
+        -ms-transition: all ease .3s 0s;
+        -o-transition: all ease .3s 0s;
+        transition: all ease .3s 0s;
+        &:focus{
+            @include search_btn;
+            &+span{
+                color: color("primary");
+            }
+        }
+    }
+}
+.a-hover-primary{
+    &:hover {
+        .border{
+            width: 100%;
+        }
+        .search-btn{
+            @include search_btn;
+        }
+    }
+    .border{
+        left: 50%;
+        bottom: 0;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+    }
+}
+.selected{
+    color: color("primary");
+    .border{
+        width: 100%;
+    }
+}

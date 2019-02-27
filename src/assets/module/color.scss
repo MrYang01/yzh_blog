@@ -1,0 +1,58 @@
+//便于循环编写css 目前没有找到更好的办法
+$color:( "primary":#ff6600, // 主题颜色
+"second":#4d8eff,
+"title":#333, // 标题色
+"sub":#999, //副标题色
+"border":#dcdfe6, //边框色
+"content":#666, //文字内容色
+"bgTitle":#f3f6f9,
+"grey":#ccc,
+"white":#fff, //白色
+"black":#000, //黑色
+"bg":#f8f8f8, //背景颜色
+"bgPrimary":#feeaea,
+"bgLight":#363636, //稍浅背景颜色
+"greyBg":#fafafa, //浅色背景颜色
+"greyDark":#f2f2f2,
+//"border":#e4e7ed,
+"borderLight":#f3f3f3,
+"success":#57c90c,
+"warning":#e6a23c,
+"error":#ff4048,
+"choose":#ffeced,
+"badge":#ff8026,
+"link":#2B88DA,
+"primaryLight":#ffebeb,
+"bg1":#f5f5f5,
+"bg2":#d8d8d8,
+"bg3":#c3c3c3,
+"bg4":#adadad,
+"mbg":#F7F8FB,
+"mBg":#F7F8FB,
+"mPrimary":#4381E5,
+"mAssist":#ED5458,
+"mTitle":#333840,
+"mContent":#5F5F6B,
+"mSub":#397AE3,
+);
+@function color($n) {
+    @return map-get($color,$n);
+}
+/* 改变主题色变量 */
+$--color-primary:  color(primary);
+// Media Query Ranges
+$small-screen-up: 769px !default;
+$medium-screen-up: 993px !default;
+$large-screen-up: 1201px !default;
+$small-screen: 768px !default;
+$medium-screen: 992px !default;
+$large-screen: 1200px !default;
+$w :1900px;
+$medium-and-up: "only screen and (min-width : #{$small-screen-up})" !default;
+$large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
+$extra-large-and-up: "only screen and (min-width : #{$large-screen-up})" !default;
+$small-and-down: "only screen and (max-width : #{$small-screen})" !default;
+$medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
+$medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})" !default;
+$w-and-up: "only screen and (min-width : #{$w})" !default;
+$w-and-down: "only screen and (max-width : #{$w})" !default;

@@ -1,19 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import menuRouter from './menuRouter/index'
+import empty from '@c/base/emptyView'
+import indexRoute from './index/index'
+import aboutRoute from './about/index'
+import articleRoute from './article/articlle'
 
-Vue.use(Router)
+Vue.use(Router);
 
-var routes = [
-    {
-        path: '/',
-        name: 'HelloWorld',
-        component: HelloWorld
-    }
-];
+let routes = [];
 
-routes.push(menuRouter);
+routes.push(indexRoute);
+routes.push(aboutRoute);
+routes.push(articleRoute);
+
+routes.push({
+    path: "*",
+    name: "404",
+    component: () => import("@c/base/error")
+});
 
 export default new Router({
     mode: 'history',

@@ -5,6 +5,11 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import './assets/app.scss'
+import './utils/public'
+import $ from  './utils/index'
+import './utils/axios'
+
+Vue.use($);
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {
