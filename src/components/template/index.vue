@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="mt80">
         <transition name='animate-width'>
             <div class="progress-top bg-primary" :class='{"animate-width-enter":loading,"animate-width-over":loadingOver}'></div>
         </transition>
         <app-header></app-header>
-        <router-view></router-view>
+        <router-view class="container"></router-view>
         <transition name='fade'>
             <div class="flex-box middle ajaxLoading fixed full" v-show='ajaxLoading.length' v-notouch>
             </div>

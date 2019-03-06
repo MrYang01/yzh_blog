@@ -3,6 +3,10 @@ import router from '../router'
 import axios from 'axios'
 import $ from './index'
 
+//配置axios
+//缓存本页面数据参数
+var urlCache = {};
+
 let $axios = (obj) => {
     let ajaxData = ""; // res数据
     let a = {
@@ -44,6 +48,82 @@ let $axios = (obj) => {
         }
     }
 
+    // 判断是否需要数据转换
+    let n = {
+        ajaxLoading(flag, res) {
+            if (obj.elseData.ajaxLoading) {
+                var _self = obj._self
+                // console.log(flag)
+                if (flag) {
+                    _self.YZHloading = false;
+                    if (res.data.success) {
+                        _self.YZHerror = false;
+                    } else {
+                        _self.YZHerror = true;
+                        _self.YZHerrorMsg = res.data.msg;
+                    }
+                } else {
+                    _self.YZHerrorMsg = res;
+                    _self.YZHloading = false;
+                    _self.YZHerror = true;
+                }
+            }
+        },
+        cache(res) {
+            if (obj.elseData.cache) {
+                if (res.data.success == true) {
+                    urlCache[p] = $.extend(true, {}, res);
+                }
+            }
+        },
+        windowCache(res) {
+            if (obj.elseData.windowCache) {
+                if (res.data.success == true) {
+                    windowCache[p] = true;
+                }
+            }
+        },
+        ls(res) {
+            if (obj.elseData.ls) {
+                if (res.data.success == true) {
+                    localStorage.setItem(ls, JSON.stringify(res));
+                }
+            }
+        },
+        /*tip(res) {
+            if (obj.elseData.tip) {
+                if (res.data.success == true) {
+                    $.tip({
+                        time: obj.elseData.tipTime,
+                        content: res.data.msg || obj.elseData.tipTxt,
+                        fn: obj.elseData.tipFn
+                    })
+                }
+            }
+        }*/
+    };
+
+    if (obj.elseData.formData) {
+        obj.config.transformRequest = [function (data) {
+            let ret = ''
+            for (let it in data) {
+                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+            }
+            return ret;
+        }];
+        obj.config.headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+    if (obj.elseData.string) {
+        obj.config.transformRequest = [function (data) {
+            return JSON.stringify(data);
+        }];
+        obj.config.headers = {
+            'Content-Type': 'application/json'
+        };
+    }
+
     let newAxios = axios($.extend(true, {
         url: obj.url,
         method: obj.type,
@@ -62,17 +142,15 @@ let $axios = (obj) => {
         //请求完成
         n.loading(false);
         ajaxData = res.data;
-        // console.log(2222,res)
         if (res.data.success == true) { //正确返回
             //请求返回数据成功
             n.ajaxLoading(true, res);
             res.codeFlag = true;
             res.d = res.data.data;
-            n.tip(res);
-            n.cache(res);
-            n.ls(res);
-            n.windowCache(res);
-            // console.log(1111,res)
+            // n.tip(res);
+            // n.cache(res);
+            // n.ls(res);
+            // n.windowCache(res);
             return Promise.resolve(res);
         } else {
             //请求数据失败

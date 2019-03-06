@@ -24,12 +24,18 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     border-color: color("primary");
 }
 .header{
-    height: 80px;
+    @include tran(top, ease, 1s, 0.1s);
+    position: fixed;
+    top: 0;
+    height: 60px;
     width: 100%;
     background: #fff;
     -webkit-box-shadow: 0 5px 30px rgba(33,149,215,.06);
     -moz-box-shadow: 0 5px 30px rgba(33,149,215,.06);
     box-shadow: 0 5px 30px rgba(33,149,215,.06);
+    &.header-hide{
+        top: -100%;
+    }
     .search-btn{
         width: 0;
         height: 25px;
@@ -72,5 +78,41 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     color: color("primary");
     .border{
         width: 100%;
+    }
+}
+
+.top-btn{
+    position: fixed;
+    right: 30px;
+    bottom: 60px;
+}
+.is-top .top-btn{
+    @include tran(all, ease, 0.3s, 0.2s);
+    opacity: 0;
+    bottom: 100px;
+}
+#editor{
+    .divarea-wrapper{
+        overflow-y: auto;
+    }
+    .v-show-content{
+        background-color: #efefef;
+    }
+    .op-icon{
+        &:hover{
+            background-color: #fff0e6!important;
+        }
+        &.selected{
+            background-color: #fff0e6!important;
+        }
+    }
+}
+
+#shower{
+    .v-note-panel{
+        border: 0!important;
+    }
+    .v-show-content{
+        background-color:transparent!important;
     }
 }
