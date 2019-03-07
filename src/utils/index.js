@@ -5,6 +5,7 @@ let $ = {
     install(Vue){
         Vue.prototype.$ = this;
     },
+    // _this: this,
     extend,
     timeFormat: ['yyyy-MM-dd', 'yyyy.MM.dd'],
     getTime(time, s) {

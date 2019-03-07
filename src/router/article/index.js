@@ -14,7 +14,7 @@ export default {
     children:[{
         path: '',
         name: 'article.index',
-        component: () => import("@v/article/article")
+        component: () => import("@v/article/articleDetail")
     }]
 
 }

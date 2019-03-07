@@ -1,7 +1,6 @@
 <template>
     <div >
         <div class="article">
-            后台接口调用：<a href="http://localhost:3000/users/getUserInfo?id=1">getUserInfo</a>
             <div class="title pd-l25 pd-r25">
                 <p class="color-title f24">{{article.title}}</p>
                 <div class="color-sub mt15 mb15" :gutter="20">
@@ -24,7 +23,7 @@
     import { mavonEditor } from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
     export default {
-        name: "article",
+        name: "articleDetail",
         data(){
             return {
                 config:{
@@ -33,7 +32,13 @@
                     toolBarBtn: false,
                     boxShadow: false,
                 },
-                article: this.$.getData("article")[0],
+                article: {
+                    title: '',
+                    label: "",
+                    time: '',
+                    content: '',
+                },
+                label: '',
             }
         },
         methods:{
@@ -43,10 +48,25 @@
                         this.label = item.label;
                     }
                 })
-            }
+            },
+            getArticle(){
+                let data = {articleId: 2}
+                this.$axios({
+                    url: 'article/getArticle',
+                    type: 'get',
+                    data: data,
+                    elseData: {
+                        formData: true
+                    }
+                }).then((res) => {
+                    console.log(res);
+                    this.article = res.d[0];
+                })
+            },
         },
         created(){
             this.getLabel();
+            this.getArticle();
         },
         components:{
             mavonEditor,

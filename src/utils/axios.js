@@ -128,19 +128,21 @@ let $axios = (obj) => {
         url: obj.url,
         method: obj.type,
         headers: obj.headers,
-        baseURL: (() => {
-            let url = '';
-            if ($.currentRoute) {
-                url = baseURL[$.currentRoute][$.dev ? 'dev' : 'product'];
-            }
-            return url;
-        })(),
+        // baseURL: 'http://localhost:3000',
+        baseURL: '/api',
+        // baseURL: (() => {
+        //     let url = '';
+        //     if ($.currentRoute) {
+        //         url = baseURL[$.currentRoute][$.dev ? 'dev' : 'product'];
+        //     }
+        //     return url;
+        // })(),
         timeout: 10000,
         data: obj.type === 'get' ? {} : a.data,
         params: obj.type === 'post' ? {} : a.data,
     }, obj.config)).then((res) => {
         //请求完成
-        n.loading(false);
+        // n.loading(false);
         ajaxData = res.data;
         if (res.data.success == true) { //正确返回
             //请求返回数据成功
@@ -239,10 +241,10 @@ let $axios = (obj) => {
         if (ajaxData && ajaxData.msg|| ajaxData.message) {
             errorMsg = ajaxData.msg || ajaxData.message
         }
-        $._self.$message({
-            message: errorMsg,
-            type: 'error'
-        });
+        // $._this.$message({
+        //     message: errorMsg,
+        //     type: 'error'
+        // });
         n.loading(false);
         // console.log(errorMsg)
         n.ajaxLoading(false, errorMsg);
@@ -250,11 +252,13 @@ let $axios = (obj) => {
         return Promise.reject(ajaxData.msg || ajaxData.message || error);
     })
     //请求之前处理逻辑
-    n.loading(true); //提交数据loading
+    // n.loading(true); //提交数据loading
     return newAxios;
 
 };
 
+Vue.prototype.$axios = $axios;
+Vue.prototype.$axiosP = axios;
 export  {
     $axios
 }
