@@ -245,7 +245,7 @@ let $axios = (obj) => {
         //     message: errorMsg,
         //     type: 'error'
         // });
-        n.loading(false);
+        // n.loading(false);
         // console.log(errorMsg)
         n.ajaxLoading(false, errorMsg);
         obj.elseData.fail(ajaxData);

@@ -3,9 +3,10 @@
         <div class="article">
             <div class="title pd-l25 pd-r25">
                 <p class="color-title f24">{{article.title}}</p>
-                <div class="color-sub mt15 mb15" :gutter="20">
+                <div class="color-sub mt15 mb15 pr" :gutter="20">
                     <span class="inline-block mr20">{{$.getTime(article.time)}}</span>
                     <span class="inline-block mr15">标签：{{label}}</span>
+                    <span class="pa color-primary pointer" style="right: 0;" @click="edit">编辑</span>
                 </div>
                 <div class="b-b"></div>
             </div>
@@ -42,6 +43,13 @@
             }
         },
         methods:{
+            edit(){
+                let _this = this;
+                this.$router.push({
+                    name: "article.edit",
+                    query: {articleId: _this.article.articleId}
+                })
+            },
             getLabel(){
                 this.$.label.forEach(item => {
                     if(item.id === this.article.label){
@@ -50,17 +58,18 @@
                 })
             },
             getArticle(){
-                let data = {articleId: 2}
                 this.$axios({
                     url: 'article/getArticle',
                     type: 'get',
-                    data: data,
+                    data: {
+                        articleId: this.$route.query.articleId
+                    },
                     elseData: {
                         formData: true
                     }
                 }).then((res) => {
                     console.log(res);
-                    this.article = res.d[0];
+                    this.article = res.d;
                 })
             },
         },

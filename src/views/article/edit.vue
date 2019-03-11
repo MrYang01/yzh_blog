@@ -5,10 +5,10 @@
                 <el-button>回到首页</el-button>
             </el-col>
             <el-col :span="16">
-                <el-input placeholder="请输入文章标题" v-model="articleItem.title"></el-input>
+                <el-input placeholder="请输入文章标题" v-model="article.title"></el-input>
             </el-col>
             <el-col :span="2">
-                <el-select v-model="articleItem.label" placeholder="请选择">
+                <el-select v-model="article.label" placeholder="请选择">
                     <el-option v-for="item in $.label"
                                :key="item.id"
                                :label="item.label"
@@ -17,7 +17,7 @@
                 </el-select>
             </el-col>
             <el-col :span="2">
-                <el-button >发布文章</el-button>
+                <el-button @click="save(2)">发布文章</el-button>
             </el-col>
             <el-col :span="1" >
                 <el-dropdown>
@@ -34,8 +34,8 @@
                 </el-dropdown>
             </el-col>
         </el-row>
-        <mavon-editor id="editor" v-model="articleItem.content" class="mt10 flex1"
-                      @save="save"
+        <mavon-editor id="editor" v-model="article.content" class="mt10 flex1"
+                      @save="save(1)"
                       :subfield="config.subfield"
                       :toolbarsFlag="config.toolBarBtn"
                       :boxShadow="config.boxShadow"
@@ -51,8 +51,8 @@
         data(){
             return {
                 value: '',
-                articleItem:{
-                    id: 0,
+                article:{
+                    articleId: 0,
                     label: '',
                     time: '',
                     status: 1,
@@ -67,18 +67,40 @@
                 },
             }
         },
+        created(){
+            if(this.$route.query.articleId){
+                this.getArticle()
+            }
+        },
         methods:{
-            save(val){
-                let obj = this.$.getData("article");
-                console.log(obj);
-                if(obj.length){
-                    this.articleItem.id = obj[length - 1].id;
-                }else {
-                    this.articleItem.id = obj.length;
-                }
-                this.articleItem.time = new Date().getTime();
-                obj.push(this.articleItem);
-                this.$.setData("article", obj);
+            getArticle(){
+                this.$axios({
+                    url: 'article/getArticle',
+                    type: 'get',
+                    data: {
+                        articleId: this.$route.query.articleId
+                    },
+                    elseData: {
+                        formData: true
+                    }
+                }).then((res) => {
+                    console.log(res);
+                    this.article = res.d;
+                })
+            },
+            save(status){
+                // status 1: 草稿  2: 发布
+                this.article.status = status;
+                this.$axios({
+                    type: "post",
+                    data: this.article,
+                    url: "article/editArticle"
+                }).then( (res) => {
+                    console.log(res.d);
+                    if(res.d.articleId){
+                        this.article.articleId = res.d.articleId;
+                    }
+                })
             },
             // 绑定@imgAdd event
             $imgAdd(pos, $file){
