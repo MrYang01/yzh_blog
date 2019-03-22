@@ -2,6 +2,9 @@
     <div class="header mb20" :class="{'is-top': scrollBtn, 'header-hide': headerHideBtn}">
         <div class="container flex-box tran flex-between v-middle f16 full-h color-content">
             <div class="flex-box v-middle full-h">
+                <div class="logo full-h">
+                    <img src="@/assets/logo.png" class="full-h">
+                </div>
                 <div class="ml30 a-hover-primary full-h flex-box middle pr"
                      :class="{selected: item.path === selectIndex}"
                      v-for="(item, index) in routes"
